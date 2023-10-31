@@ -28,11 +28,9 @@ class UsersService {
         password: hashPassword(payload.password)
       })
     )
-
     // Lấy user_id  từ user mới tạo
     const user_id = result.insertedId.toString()
     const [access_token, refresh_token] = await this.signAccessTokenAndsignRefreshToken(user_id)
-
     // lưu refresh token vào db
     await databaseService.refreshTokens.insertOne(
       new RefreshToken({
@@ -40,7 +38,6 @@ class UsersService {
         user_id: new ObjectId(user_id)
       })
     )
-
     return { access_token, refresh_token }
   }
 
@@ -73,7 +70,6 @@ class UsersService {
   async login(user_id: string) {
     const [access_token, refresh_token] = await this.signAccessTokenAndsignRefreshToken(user_id)
     // lưu rf vào database
-
     await databaseService.refreshTokens.insertOne(
       new RefreshToken({
         token: refresh_token,

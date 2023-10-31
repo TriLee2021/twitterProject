@@ -34,11 +34,13 @@ import databaseService from '~/services/database.services'
 
 export const loginController = async (req: Request<ParamsDictionary, any, LoginReqBody>, res: Response) => {
   // nếu nó vào đây, tức là nó đã đăng nhập thành công
-  const user = req.user as User //khi mà mình check login valid và Schema
-  const user_id = user._id as ObjectId
-
+  const user = req.user as User // lấy user từ req
+  const user_id = user._id as ObjectId //Lấy _id từ user
   // server phải tạo ra access_token và refresh_token để đưa cho client
   const result = await usersService.login(user_id.toString())
+  //login nhận vào user_id:string, nhưng user_id ta có
+  //là objectid trên mongodb, nên phải toString()
+  //trả ra kết quả, thiếu cái này là sending hoài luôn
   return res.json({
     message: USERS_MESSAGES.LOGIN_SUCCESS,
     result

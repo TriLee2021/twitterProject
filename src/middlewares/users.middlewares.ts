@@ -50,7 +50,7 @@ export const loginValidator = validate(
             if (user === null) {
               throw new Error(USERS_MESSAGES.EMAIL_OR_PASSWORD_IS_INCORRECT)
             }
-            req.user = user //req giữ giùm cái user này
+            req.user = user //lưu user vào req để dùng ở login controller
             return true
           }
         }
