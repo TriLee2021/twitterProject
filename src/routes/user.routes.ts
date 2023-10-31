@@ -1,7 +1,15 @@
-import { loginValidator, registerValidator } from './../middlewares/users.middlewares'
+import { access } from 'fs'
+import {
+  accessTokenValidator,
+  loginValidator,
+  refreshTokenValidator,
+  registerValidator
+} from './../middlewares/users.middlewares'
 import { Router } from 'express'
-import { loginController } from '~/controllers/users.controllers'
+import { loginController, logoutController } from '~/controllers/users.controllers'
 import { registerController } from '~/controllers/users.controllers'
+import { wrapAsync } from '~/utils/handlers'
+import { wrap } from 'module'
 const usersRouter = Router() //khai báo Router
 //lưu những bộ api lên quan đến users,
 
@@ -27,14 +35,14 @@ const usersRouter = Router() //khai báo Router
 //mỗi lần route chạy './login' thì sẽ tạo cho mình 1 cái rq,
 //rq đi qua mdw, mdw kiểm tra rq có những thuộc tính này hay không, nó có giá trị hay không, không thành công thì bị chặn,
 //thành công thì chạy qua Controller
-usersRouter.get('/login', loginValidator, loginController)
+usersRouter.get('/login', loginValidator, wrapAsync(loginController))
 // register họ sẽ đẩy dữ liệu lên nên để .post
 // register sẽ check validator của những cái dữ liệu đc truyền lên
-usersRouter.post('/register', registerValidator, registerController)
+usersRouter.post('/register', registerValidator, wrapAsync(registerController))
 // khi 1 người dùng mà truy cập register, họ sẽ gửi cho mình 1 rq và
 // rq đó sẽ bao gồm email và password mình sẽ xủ lý validate và vô controller
 // và lấy 2 cái biến đó nhét vào dtb của mình để lưu lại cái user đó
 // nếu lưu thành công hay thất bại sẽ và trả ra những kq tương ứng
 // trong quá trình đó thì mình xài try catch
-
+usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, wrapAsync(logoutController))
 export default usersRouter

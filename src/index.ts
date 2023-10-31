@@ -1,6 +1,7 @@
 import usersRouter from './routes/user.routes'
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import databaseService from './services/database.services'
+import { defaultErrorHandler } from './middlewares/error.middlewares'
 const app = express()
 //index là file tổng
 //post man dùng để test api
@@ -17,12 +18,13 @@ databaseService.connect()
 //   res.send('hello world')
 // })
 
+app.use('/users', usersRouter) //chứa các bộ api liên quan đến user
+
+app.use(defaultErrorHandler)
+
 app.listen(port, () => {
   console.log(`Project twitter này đang chạy trên post ${port}`)
 })
-
-app.use('/users', usersRouter) //chứa các bộ api liên quan đến user
-
 //app tổng sẽ dùng usersRouter trên nên ta sẽ có 1 đường dẫn là /api/tweets
 //nên lúc muốn xài api tweets thì ta phải truy cập bằng
 //localhost:3000/api/tweets

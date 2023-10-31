@@ -1,4 +1,4 @@
-import exp from 'constants'
+// file crypto dùng để mã hóa password
 import { config } from 'dotenv'
 import { createHash } from 'crypto'
 config()

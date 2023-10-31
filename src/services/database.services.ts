@@ -2,6 +2,7 @@
 import { MongoClient, Db, Collection } from 'mongodb'
 import { config } from 'dotenv'
 import User from '~/models/schemas/User.schema'
+import RefreshToken from '~/models/schemas/RefreshToken.schema'
 config()
 
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@tweetprojectk18f3.3lz8ews.mongodb.net/?retryWrites=true&w=majority`
@@ -23,7 +24,7 @@ class DatabaseService {
       // command là ping tới db, nếu thành công sẽ trả về 1
       console.log('Pinged your deployment. You successfully connected to MongoDB!')
     } catch (error) {
-      console.log(error)
+      console.log('Lỗi trong quá trình kết nối Mongo', error)
       throw error
     }
   }
@@ -37,6 +38,10 @@ class DatabaseService {
     return this.db.collection(process.env.DB_USERS_COLLECTION as string)
     //máy mình không bik đây là kiểu string hay undefine nên mình phải thêm
     // 'as string' cho nó hiếu
+  }
+
+  get refreshTokens(): Collection<RefreshToken> {
+    return this.db.collection(process.env.DB_REFRESH_TOKENS_COLLECTION as string)
   }
 }
 
