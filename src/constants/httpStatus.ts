@@ -8,7 +8,8 @@ const HTTP_STATUS = {
   UNPROCESSABLE_ENTITY: 422,
   UNAUTHORIZED: 401,
   NOT_FOUND: 404,
-  INTERNAL_SERVER_ERROR: 500
+  INTERNAL_SERVER_ERROR: 500,
+  FORBIDDEN: 403
 } as const // as const: tất cả các thuộc tính này không bị thay đổi nữa
 
 export default HTTP_STATUS

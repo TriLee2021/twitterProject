@@ -14,11 +14,11 @@ config()
 // cái này thành obj
 export const signToken = ({
   payload, //
-  privateKey = process.env.JWT_SECRET as string,
+  privateKey = process.env.JWT_SECRET as string, //mỗi lần cấp token là tạo luôn ko để mặc định
   options = { algorithm: 'HS256' }
 }: {
   payload: string | object | Buffer
-  privateKey?: string
+  privateKey: string
   options?: jwt.SignOptions
 }) => {
   //promise của cái token này đc đưa về chuỗi
@@ -32,13 +32,8 @@ export const signToken = ({
   })
 }
 
-export const verifyToken = ({
-  token,
-  secretOrPublicKey = process.env.JWT_SECRET as string
-}: {
-  token: string
-  secretOrPublicKey?: string
-}) => {
+// hàm nhận vào token và secretOrPublicKey?
+export const verifyToken = ({ token, secretOrPublicKey }: { token: string; secretOrPublicKey: string }) => {
   return new Promise<TokenPayLoad>((resolve, reject) => {
     jwt.verify(token, secretOrPublicKey, (err, decoded) => {
       if (err) throw reject(err)

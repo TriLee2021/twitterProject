@@ -11,8 +11,8 @@ import { NextFunction, Request, RequestHandler, Response } from 'express'
 // Mấy hàm này tương tự như validate
 
 // wrap sync sẽ nhận 1 đống code không có try catch
-export const wrapAsync = (func: RequestHandler) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+export const wrapAsync = <P>(func: RequestHandler<P>) => {
+  return async (req: Request<P>, res: Response, next: NextFunction) => {
     try {
       await func(req, res, next) // đây chính là 1 req handler
     } catch (error) {

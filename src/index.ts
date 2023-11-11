@@ -1,7 +1,8 @@
-import usersRouter from './routes/user.routes'
 import express, { NextFunction, Request, Response } from 'express'
+
 import databaseService from './services/database.services'
 import { defaultErrorHandler } from './middlewares/error.middlewares'
+import usersRouter from './routes/user.routes'
 const app = express()
 //index là file tổng
 //post man dùng để test api
